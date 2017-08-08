@@ -108,7 +108,9 @@
   <ItemGroup>
     <Compile Include="Enums\TaskPriority.cs" />
     <Compile Include="Enums\TaskStatus.cs" />
-    <Compile Include="Models\AccessToken.cs" />
+    <Compile Include="Interfaces\IAuthenticationService.cs" />
+    <Compile Include="Interfaces\ITodoService.cs" />
+    <Compile Include="Models\Token.cs" />
     <Compile Include="Models\TodoTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\TMS.TodoApi.rd.xml" />

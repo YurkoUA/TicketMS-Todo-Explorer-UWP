@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TMS.TodoApi
+namespace TMS.TodoApi.Enums
 {
     public enum TaskStatus : byte
     {
