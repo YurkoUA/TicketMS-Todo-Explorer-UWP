@@ -8,17 +8,17 @@ namespace TMS.TodoApi.Interfaces
 {
     public interface ITodoService
     {
-        Task<IEnumerable<TodoTask>> GetTasks();
-        Task<IEnumerable<TodoTask>> GetTasks(TaskStatus status);
-        Task<Dictionary<TaskStatus, IEnumerable<TodoTask>>> GetTaskGroupByStatus();
+        Task<IEnumerable<TodoTask>> GetTasksAsync();
+        Task<IEnumerable<TodoTask>> GetTasksAsync(TaskStatus status);
+        Task<Dictionary<TaskStatus, IEnumerable<TodoTask>>> GetTaskGroupByStatusAsync();
 
-        Task<TodoTask> GetById(int id);
+        Task<TodoTask> GetByIdAsync(int id);
 
-        Task<TodoTask> Create(string title, string description, TaskPriority priority);
-        Task Update(string title, string description);
-        Task Delete(int id);
+        Task<TodoTask> CreateAsync(string title, string description, TaskPriority priority);
+        Task UpdateAsync(string title, string description);
+        Task DeleteAsync(int id);
 
-        Task SetStatus(int id, TaskStatus status);
-        Task SetPriority(int id, TaskPriority priority);
+        Task SetStatusAsync(int id, TaskStatus status);
+        Task SetPriorityAsync(int id, TaskPriority priority);
     }
 }

@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.TodoExplorer", "TMS-Tod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.TodoApi", "TMS.TodoApi\TMS.TodoApi.csproj", "{48255F76-C7E3-4C23-95D8-A9F2ED66B826}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E2B597E7-53E0-475D-A499-35D71D7CAD4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.Todo.Tests", "test\TMS.Todo.Tests\TMS.Todo.Tests.csproj", "{28AE696F-D21A-4829-93C1-28E1AA995DC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,8 +59,31 @@ Global
 		{48255F76-C7E3-4C23-95D8-A9F2ED66B826}.Release|x64.Build.0 = Release|x64
 		{48255F76-C7E3-4C23-95D8-A9F2ED66B826}.Release|x86.ActiveCfg = Release|x86
 		{48255F76-C7E3-4C23-95D8-A9F2ED66B826}.Release|x86.Build.0 = Release|x86
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|ARM.ActiveCfg = Debug|ARM
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|ARM.Build.0 = Debug|ARM
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|ARM.Deploy.0 = Debug|ARM
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|x64.ActiveCfg = Debug|x64
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|x64.Build.0 = Debug|x64
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|x64.Deploy.0 = Debug|x64
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|x86.ActiveCfg = Debug|x86
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|x86.Build.0 = Debug|x86
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Debug|x86.Deploy.0 = Debug|x86
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|Any CPU.ActiveCfg = Release|x86
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|ARM.ActiveCfg = Release|ARM
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|ARM.Build.0 = Release|ARM
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|ARM.Deploy.0 = Release|ARM
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|x64.ActiveCfg = Release|x64
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|x64.Build.0 = Release|x64
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|x64.Deploy.0 = Release|x64
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|x86.ActiveCfg = Release|x86
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|x86.Build.0 = Release|x86
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{28AE696F-D21A-4829-93C1-28E1AA995DC7} = {E2B597E7-53E0-475D-A499-35D71D7CAD4B}
 	EndGlobalSection
 EndGlobal
