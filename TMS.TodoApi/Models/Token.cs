@@ -5,10 +5,6 @@ namespace TMS.TodoApi.Models
 {
     public class Token
     {
-        public Token()
-        {
-        }
-
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
 
@@ -18,7 +14,8 @@ namespace TMS.TodoApi.Models
         [JsonProperty("token_type")]
         public string TokenType { get; set; }
 
-        public DateTime ExpireTime { get; set; }
+        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public DateTime ExpireTime => CreationTime.AddSeconds(SecondsToExpire);
 
         public bool IsActive => DateTime.Now < ExpireTime;
 

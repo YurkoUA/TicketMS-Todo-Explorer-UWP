@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="TMS.TodoExplorer.Views.SignInPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TMS.TodoExplorer.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel Margin="10,10,10,10">
+                <TextBlock Text="Логін" />
+                <TextBox PlaceholderText="Ім'я або Email" 
+                         InputScope="EmailNameOrAddress"
+                         Text="{Binding Path=UserName, Mode=TwoWay}"
+                         Margin="0,10,0,10" />
+
+                <TextBlock Text="Пароль" />
+                <PasswordBox PlaceholderText="Пароль"
+                         Password="{Binding Path=Password, Mode=TwoWay}"
+                         Margin="0,10,0,10" />
+
+                <CheckBox Content="Запам'ятати" IsThreeState="False"
+                          IsChecked="{Binding Path=IsRemember, Mode=TwoWay}" />
+
+                <Button Content="Увійти" HorizontalAlignment="Stretch"
+                        Margin="0,10,0,10"
+                        Command="{Binding AuthorizeCommand}" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
