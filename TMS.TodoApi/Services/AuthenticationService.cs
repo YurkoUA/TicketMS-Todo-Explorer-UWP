@@ -13,27 +13,25 @@ namespace TMS.TodoApi.Services
         public bool IsAuthenticated { get; set; }
         public Token AccessToken { get; set; }
 
-        private string _baseUrl;
+        private IHttpService _httpService;
 
-        public AuthenticationService(string baseUrl)
+        public AuthenticationService(IHttpService httpService)
         {
-            _baseUrl = baseUrl + "api/";
+            _httpService = httpService;
         }
 
         public async Task<bool> TryAuthorizeAsync(string userName, string password)
         {
-            var client = new HttpClient();
-
             var request = new HttpRequestMessage()
             {
-                RequestUri = new Uri(_baseUrl + "token"),
+                RequestUri = new Uri(_httpService.BaseAddress + "token"),
                 Method = HttpMethod.Post,
                 Content = new StringContent($"grant_type=password&username={userName}&password={password}")
             };
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             request.Headers.UserAgent.ParseAdd("TMS ToDo Explorer UWP");
 
-            var response = await client.SendAsync(request);
+            var response = await _httpService.Client.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
                 return false;
@@ -44,6 +42,8 @@ namespace TMS.TodoApi.Services
                 return false;
             
             IsAuthenticated = true;
+            _httpService.ConfigureToken(AccessToken);
+
             return true;
         }
     }

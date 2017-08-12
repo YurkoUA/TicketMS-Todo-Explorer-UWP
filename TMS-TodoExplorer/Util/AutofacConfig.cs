@@ -18,9 +18,21 @@ namespace TMS.TodoExplorer.Util
 
             var builder = new ContainerBuilder();
 
+            builder.RegisterType<HttpService>()
+                .As<IHttpService>()
+                .WithParameter("baseUrl", baseUrl)
+                .SingleInstance();
+
+            builder.RegisterType<NavigationService>()
+                .As<INavigationService>()
+                .SingleInstance();
+
             builder.RegisterType<AuthenticationService>()
                 .As<IAuthenticationService>()
-                .WithParameter("baseUrl", baseUrl)
+                .SingleInstance();
+
+            builder.RegisterType<TodoService>()
+                .As<ITodoService>()
                 .SingleInstance();
 
             _container = builder.Build();

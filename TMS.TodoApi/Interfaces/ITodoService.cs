@@ -15,7 +15,7 @@ namespace TMS.TodoApi.Interfaces
         Task<TodoTask> GetByIdAsync(int id);
 
         Task<TodoTask> CreateAsync(string title, string description, TaskPriority priority);
-        Task UpdateAsync(string title, string description);
+        Task UpdateAsync(int id, string title, string description);
         Task DeleteAsync(int id);
 
         Task SetStatusAsync(int id, TaskStatus status);

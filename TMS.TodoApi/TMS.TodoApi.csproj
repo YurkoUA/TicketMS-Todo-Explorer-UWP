@@ -108,12 +108,19 @@
   <ItemGroup>
     <Compile Include="Enums\TaskPriority.cs" />
     <Compile Include="Enums\TaskStatus.cs" />
+    <Compile Include="Extensions\HttpClientExtensions.cs" />
+    <Compile Include="Extensions\ObservableCollectionExtensions.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
+    <Compile Include="Interfaces\IHttpService.cs" />
+    <Compile Include="Interfaces\INavigationService.cs" />
     <Compile Include="Interfaces\ITodoService.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\TodoTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
+    <Compile Include="Services\HttpService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\TodoService.cs" />
     <EmbeddedResource Include="Properties\TMS.TodoApi.rd.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,8 @@ namespace TMS.TodoApi.Models
         public string PriorityString { get; set; }
         public string StatusString { get; set; }
 
+        public string LocalDateString => Date.ToLocalTime().ToString("d");
+
         #region System.Object methods
 
         public override string ToString()

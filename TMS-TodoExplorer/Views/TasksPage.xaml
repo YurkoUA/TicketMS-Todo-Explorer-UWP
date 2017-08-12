@@ -1,0 +1,107 @@
+﻿<Page
+    x:Class="TMS.TodoExplorer.Views.TasksPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TMS.TodoApi.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel>
+                <Pivot>
+                    <PivotItem Header="Вільні задачі">
+                        <ListBox ItemsSource="{Binding Path=FreeTasks, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="local:TodoTask">
+                                    <RelativePanel>
+                                        <TextBlock x:Name="taskTitle" 
+                                                   Text="{x:Bind Title}"
+                                                   FontWeight="Bold" />
+                                        <TextBlock x:Name="taskPriority" 
+                                                   Text="{x:Bind PriorityString}"
+                                                   RelativePanel.Below="taskTitle" />
+                                        <TextBlock x:Name="taskDate" 
+                                                   Text="{x:Bind LocalDateString}"
+                                                   RelativePanel.AlignRightWithPanel="True"
+                                                   RelativePanel.AlignBottomWith="taskTitle"/>
+                                    </RelativePanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </PivotItem>
+
+                    <PivotItem Header="В процесі">
+                        <ListBox ItemsSource="{Binding Path=InProcessTasks, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="local:TodoTask">
+                                    <RelativePanel>
+                                        <TextBlock x:Name="taskTitle" 
+                                                   Text="{x:Bind Title}"
+                                                   FontWeight="Bold" />
+                                        <TextBlock x:Name="taskPriority" 
+                                                   Text="{x:Bind PriorityString}"
+                                                   RelativePanel.Below="taskTitle" />
+                                        <TextBlock x:Name="taskDate" 
+                                                   Text="{x:Bind LocalDateString}"
+                                                   RelativePanel.AlignRightWithPanel="True"
+                                                   RelativePanel.AlignBottomWith="taskTitle"/>
+                                    </RelativePanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </PivotItem>
+
+                    <PivotItem Header="Перероблюються">
+                        <ListBox ItemsSource="{Binding Path=RecycledTasks, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="local:TodoTask">
+                                    <RelativePanel>
+                                        <TextBlock x:Name="taskTitle" 
+                                                   Text="{x:Bind Title}"
+                                                   FontWeight="Bold" />
+                                        <TextBlock x:Name="taskPriority" 
+                                                   Text="{x:Bind PriorityString}"
+                                                   RelativePanel.Below="taskTitle" />
+                                        <TextBlock x:Name="taskDate" 
+                                                   Text="{x:Bind LocalDateString}"
+                                                   RelativePanel.AlignRightWithPanel="True"
+                                                   RelativePanel.AlignBottomWith="taskTitle"/>
+                                    </RelativePanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </PivotItem>
+
+                    <PivotItem Header="Виконані задачі">
+                        <ListBox ItemsSource="{Binding Path=CompletedTasks, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="local:TodoTask">
+                                    <RelativePanel>
+                                        <TextBlock x:Name="taskTitle" 
+                                                   Text="{x:Bind Title}"
+                                                   FontWeight="Bold" />
+                                        <TextBlock x:Name="taskPriority" 
+                                                   Text="{x:Bind PriorityString}"
+                                                   RelativePanel.Below="taskTitle" />
+                                        <TextBlock x:Name="taskDate" 
+                                                   Text="{x:Bind LocalDateString}"
+                                                   RelativePanel.AlignRightWithPanel="True"
+                                                   RelativePanel.AlignBottomWith="taskTitle"/>
+                                    </RelativePanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </PivotItem>
+                </Pivot>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+
+    <Page.Resources>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+    </Page.Resources>
+</Page>

@@ -4,23 +4,25 @@ using System.Windows.Input;
 using Windows.UI.Popups;
 using TMS.TodoApi.Interfaces;
 using TMS.TodoExplorer.Commands;
-using TMS.TodoExplorer.Util;
+using TMS.TodoExplorer.Views;
 
 namespace TMS.TodoExplorer.ViewModels
 {
     public class SignInViewModel : BaseViewModel
     {
         private IAuthenticationService _authService;
+        private INavigationService _navigationService;
 
         private string _userName;
         private string _password;
         private bool? _isRemember;
 
-        protected ICommand _authorizeCommand;
+        private ICommand _authorizeCommand;
 
-        public SignInViewModel()
+        public SignInViewModel(IAuthenticationService authService, INavigationService navigationService)
         {
-            _authService = AutofacConfig.Resolve<IAuthenticationService>();
+            _authService = authService;
+            _navigationService = navigationService;
         }
 
         public string UserName
@@ -65,8 +67,9 @@ namespace TMS.TodoExplorer.ViewModels
 
             if (result)
             {
-                var message = $"{_authService.AccessToken}\n{_authService.AccessToken.ExpireTime}";
-                await new MessageDialog(message, "Вас успішно авторизовано").ShowAsync();
+                //var message = $"{_authService.AccessToken}\n{_authService.AccessToken.ExpireTime}";
+                //await new MessageDialog(message, "Вас успішно авторизовано").ShowAsync();
+                _navigationService.NavigateTo(typeof(TasksPage));
             }
             else
             {
