@@ -8,6 +8,6 @@ namespace TMS.TodoApi.Interfaces
         bool IsAuthenticated { get; set; }
         Token AccessToken { get; set; }
 
-        Task<bool> TryAuthorizeAsync(string userName, string password);
+        Task AuthorizeAsync(string userName, string password);
     }
 }

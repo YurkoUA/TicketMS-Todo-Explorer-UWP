@@ -12,8 +12,10 @@ namespace TMS.TodoApi.Extensions
 
         public static async Task<T> GetJsonAsync<T>(this HttpClient client, string requestUri)
         {
-            return JsonConvert.DeserializeObject<T>(
-                await client.GetStringAsync(requestUri));
+            var resp = await client.GetAsync(requestUri);
+            resp.ThrowHttpResponseExceptions();
+
+            return JsonConvert.DeserializeObject<T>(await resp.Content.ReadAsStringAsync());
         }
 
         public static async Task<HttpResponseMessage> PostJsonAsync<T>(this HttpClient client, string requestUri, T content)
@@ -26,7 +28,10 @@ namespace TMS.TodoApi.Extensions
             };
             request.Content.Headers.ContentType = new MediaTypeHeaderValue(JSON_MIME);
 
-            return await client.SendAsync(request);
+            var resp = await client.SendAsync(request);
+            resp.ThrowHttpResponseExceptions();
+
+            return resp;
         }
 
         public static async Task<TReturn> PostAndReturnJsonAsync<TObject, TReturn>(this HttpClient client, string requestUri, TObject content)
@@ -40,6 +45,7 @@ namespace TMS.TodoApi.Extensions
             request.Content.Headers.ContentType = new MediaTypeHeaderValue(JSON_MIME);
 
             var resp = await client.SendAsync(request);
+            resp.ThrowHttpResponseExceptions();
 
             return JsonConvert.DeserializeObject<TReturn>(await resp.Content.ReadAsStringAsync());
         }
@@ -54,7 +60,10 @@ namespace TMS.TodoApi.Extensions
             };
             request.Content.Headers.ContentType = new MediaTypeHeaderValue(JSON_MIME);
 
-            return await client.SendAsync(request);
+            var resp = await client.SendAsync(request);
+            resp.ThrowHttpResponseExceptions();
+
+            return resp;
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using TMS.TodoApi.Enums;
 using TMS.TodoApi.Extensions;
@@ -64,7 +61,8 @@ namespace TMS.TodoApi.Services
 
         public async Task DeleteAsync(int id)
         {
-            await _httpService.Client.DeleteAsync($"Todo/Delete/{id}");
+            var resp = await _httpService.Client.DeleteAsync($"Todo/Delete/{id}");
+            resp.ThrowHttpResponseExceptions();
         }
 
         public async Task SetStatusAsync(int id, TaskStatus status)

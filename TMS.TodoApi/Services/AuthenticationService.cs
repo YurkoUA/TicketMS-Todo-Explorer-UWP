@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using TMS.TodoApi.Exceptions;
 using TMS.TodoApi.Interfaces;
 using TMS.TodoApi.Models;
 
@@ -20,7 +22,7 @@ namespace TMS.TodoApi.Services
             _httpService = httpService;
         }
 
-        public async Task<bool> TryAuthorizeAsync(string userName, string password)
+        public async Task AuthorizeAsync(string userName, string password)
         {
             var request = new HttpRequestMessage()
             {
@@ -34,17 +36,21 @@ namespace TMS.TodoApi.Services
             var response = await _httpService.Client.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
-                return false;
+            {
+                if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    throw new BadRequestException(response);
+                }
+                throw new HttpResponseException(response);
+            }
 
             AccessToken = JsonConvert.DeserializeObject<Token>(await response.Content.ReadAsStringAsync());
 
             if (AccessToken == null)
-                return false;
+                throw new HttpResponseException(response);
             
             IsAuthenticated = true;
             _httpService.ConfigureToken(AccessToken);
-
-            return true;
         }
     }
 }

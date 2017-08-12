@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Popups;
 using TMS.TodoApi.Interfaces;
 using TMS.TodoExplorer.Commands;
 using TMS.TodoExplorer.Views;
+using TMS.TodoApi.Exceptions;
 
 namespace TMS.TodoExplorer.ViewModels
 {
@@ -63,17 +62,23 @@ namespace TMS.TodoExplorer.ViewModels
 
         public async Task AuthorizeAsync()
         {
-            var result = await _authService.TryAuthorizeAsync(UserName, Password);
-
-            if (result)
+            try
             {
-                //var message = $"{_authService.AccessToken}\n{_authService.AccessToken.ExpireTime}";
-                //await new MessageDialog(message, "Вас успішно авторизовано").ShowAsync();
+                await _authService.AuthorizeAsync(UserName, Password);
                 _navigationService.NavigateTo(typeof(TasksPage));
             }
-            else
+            catch (BadRequestException)
             {
-                await new MessageDialog("Невірний логін або пароль.\nАбо ж взагалі сервіс недоступний.", "Помилка авторизації").ShowAsync();
+                await MessageBox.ShowAsync("Невірний логін або пароль", "Помилка");
+            }
+            catch (HttpResponseException ex)
+            {
+                await MessageBox.ShowAsync($"Сервіс недоступний. Перевірте підключення до мережі або спробуйте ще раз.\n\nКод помилки: {ex.StatusCodeNumber}",
+                    "Помилка");
+            }
+            catch
+            {
+                await MessageBox.ShowAsync("Сталася якась помилка.\n\nПеревірте підключення до мережі.", "Помилка");
             }
         }
     }

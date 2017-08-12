@@ -21,7 +21,7 @@ namespace TMS.Todo.Tests.Services
             var userName = "admin";
             var password = "qwerty";
 
-            var authResult = await authService.TryAuthorizeAsync(userName, password);
+            var authResult = await authService.AuthorizeAsync(userName, password);
 
             Assert.IsTrue(authResult);
             Assert.IsNotNull(authService.AccessToken);
@@ -36,7 +36,7 @@ namespace TMS.Todo.Tests.Services
             var userName = "admin";
             var password = "wrong_password";
 
-            var authResult = await authService.TryAuthorizeAsync(userName, password);
+            var authResult = await authService.AuthorizeAsync(userName, password);
 
             Assert.IsFalse(authResult);
             Assert.IsNull(authService.AccessToken);

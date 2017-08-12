@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using TMS.TodoExplorer.Views;
 using TMS.TodoExplorer.Util;
+using Windows.UI.Core;
 
 namespace TMS_TodoExplorer
 {
@@ -64,6 +65,31 @@ namespace TMS_TodoExplorer
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+
+                SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+
+                rootFrame.Navigated += (s, args) =>
+                {
+                    if (rootFrame.CanGoBack)
+                    {
+                        SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                    }
+                    else
+                    {
+                        SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                    }
+                };
+            }
+        }
+
+        private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            var frame = Window.Current.Content as Frame;
+
+            if (frame.CanGoBack)
+            {
+                frame.GoBack();
+                e.Handled = true;
             }
         }
 

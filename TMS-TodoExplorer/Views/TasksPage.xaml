@@ -104,4 +104,11 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="Створити" Icon="Add"
+                          Command="{Binding OpenCreatePage}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>
