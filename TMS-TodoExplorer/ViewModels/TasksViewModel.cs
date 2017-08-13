@@ -17,6 +17,8 @@ namespace TMS.TodoExplorer.ViewModels
 
         private ICommand _openCreatePage;
 
+        private TodoTask _selectedTask;
+
         public TasksViewModel(ITodoService todoService, INavigationService navigService)
         {
             _todoService = todoService;
@@ -35,6 +37,16 @@ namespace TMS.TodoExplorer.ViewModels
         public ObservableCollection<TodoTask> RecycledTasks { get; set; }
         public ObservableCollection<TodoTask> CompletedTasks { get; set; }
 
+        public TodoTask SelectedTask
+        {
+            get => _selectedTask;
+            set
+            {
+                _selectedTask = value;
+                OnPropertyChanged("SelectedTask");
+            }
+        }
+
         public ICommand OpenCreatePage
         {
             get
@@ -44,6 +56,19 @@ namespace TMS.TodoExplorer.ViewModels
                     _navigationService.NavigateTo(typeof(CreateTaskPage));
                 }));
             }
+        }
+
+        public void OpenDetails()
+        {
+            if (SelectedTask != null)
+            {
+                _navigationService.NavigateTo(typeof(DetailsPage), SelectedTask.Id);
+            }
+        }
+
+        public void ResetSelection()
+        {
+            SelectedTask = null;
         }
 
         private async void LoadTasksAsync()

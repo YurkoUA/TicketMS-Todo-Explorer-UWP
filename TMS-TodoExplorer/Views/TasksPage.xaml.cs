@@ -8,6 +8,8 @@ namespace TMS.TodoExplorer.Views
 {
     public sealed partial class TasksPage : Page
     {
+        public TasksViewModel ViewModel => DataContext as TasksViewModel;
+
         public TasksPage()
         {
             InitializeComponent();

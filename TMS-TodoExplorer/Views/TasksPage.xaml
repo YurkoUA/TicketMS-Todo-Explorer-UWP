@@ -10,16 +10,18 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel>
-                <Pivot>
+                <Pivot SelectionChanged="{x:Bind ViewModel.ResetSelection}">
                     <PivotItem Header="Вільні задачі">
-                        <ListBox ItemsSource="{Binding Path=FreeTasks, Mode=TwoWay}">
+                        <ListBox ItemsSource="{Binding Path=FreeTasks, Mode=TwoWay}"
+                                 SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
+                                 Tapped="{x:Bind ViewModel.OpenDetails}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="local:TodoTask">
                                     <RelativePanel>
                                         <TextBlock x:Name="taskTitle" 
                                                    Text="{x:Bind Title}"
                                                    FontWeight="Bold" />
-                                        <TextBlock x:Name="taskPriority" 
+                                        <TextBlock x:Name="taskPriority"
                                                    Text="{x:Bind PriorityString}"
                                                    RelativePanel.Below="taskTitle" />
                                         <TextBlock x:Name="taskDate" 
@@ -33,7 +35,9 @@
                     </PivotItem>
 
                     <PivotItem Header="В процесі">
-                        <ListBox ItemsSource="{Binding Path=InProcessTasks, Mode=TwoWay}">
+                        <ListBox ItemsSource="{Binding Path=InProcessTasks, Mode=TwoWay}"
+                                 SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
+                                 Tapped="{x:Bind ViewModel.OpenDetails}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="local:TodoTask">
                                     <RelativePanel>
@@ -54,7 +58,9 @@
                     </PivotItem>
 
                     <PivotItem Header="Перероблюються">
-                        <ListBox ItemsSource="{Binding Path=RecycledTasks, Mode=TwoWay}">
+                        <ListBox ItemsSource="{Binding Path=RecycledTasks, Mode=TwoWay}"
+                                 SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
+                                 Tapped="{x:Bind ViewModel.OpenDetails}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="local:TodoTask">
                                     <RelativePanel>
@@ -75,7 +81,9 @@
                     </PivotItem>
 
                     <PivotItem Header="Виконані задачі">
-                        <ListBox ItemsSource="{Binding Path=CompletedTasks, Mode=TwoWay}">
+                        <ListBox ItemsSource="{Binding Path=CompletedTasks, Mode=TwoWay}"
+                                 SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
+                                 Tapped="{x:Bind ViewModel.OpenDetails}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="local:TodoTask">
                                     <RelativePanel>
