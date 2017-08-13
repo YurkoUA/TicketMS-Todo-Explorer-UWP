@@ -34,8 +34,10 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Label="Редагувати" Icon="Edit"/>
-            <AppBarButton Label="Видалити" Icon="Delete"/>
+            <AppBarButton Label="Редагувати" Icon="Edit"
+                          Command="{Binding OpenEditPageCommand}"/>
+            <AppBarButton Label="Видалити" Icon="Delete"
+                          Command="{Binding DeleteCommand}"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

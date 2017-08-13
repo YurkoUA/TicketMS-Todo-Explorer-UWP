@@ -52,7 +52,7 @@ namespace TMS.TodoApi.Services
 
         public async Task UpdateAsync(int id, string title, string description)
         {
-            await _httpService.Client.PutJsonAsync($"Todo/Edit/{id}", new
+            await _httpService.Client.PutJsonAsync($"Todo/Edit?id={id}", new
             {
                 Title = title,
                 Description = description
