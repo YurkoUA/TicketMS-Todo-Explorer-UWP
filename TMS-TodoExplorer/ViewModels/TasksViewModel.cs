@@ -50,7 +50,7 @@ namespace TMS.TodoExplorer.ViewModels
         {
             var dict = await _todoService.GetTaskGroupByStatusAsync();
 
-            if (!dict.Any())
+            if (dict == null || !dict.Any())
                 return;
 
             if (dict.ContainsKey(TaskStatus.None))

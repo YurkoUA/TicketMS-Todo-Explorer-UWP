@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using TMS.TodoApi.Interfaces;
-using TMS.TodoExplorer.Util;
 using TMS.TodoExplorer.ViewModels;
+using static TMS.TodoExplorer.Util.AutofacConfig;
 
 namespace TMS.TodoExplorer.Views
 {
@@ -10,8 +10,8 @@ namespace TMS.TodoExplorer.Views
         public SignInPage()
         {
             InitializeComponent();
-            DataContext = new SignInViewModel(AutofacConfig.Resolve<IAuthenticationService>(),
-                                                AutofacConfig.Resolve<INavigationService>());
+            DataContext = new SignInViewModel(Resolve<IAuthenticationService>(),
+                                              Resolve<INavigationService>());
         }
     }
 }

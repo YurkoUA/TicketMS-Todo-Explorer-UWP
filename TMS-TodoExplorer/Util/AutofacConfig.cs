@@ -4,14 +4,14 @@ using TMS.TodoApi.Services;
 
 namespace TMS.TodoExplorer.Util
 {
-    public class AutofacConfig
+    public static class AutofacConfig
     {
         private static IContainer _container;
 
         public static void ConfigureContainer()
         {
 #if DEBUG
-            string baseUrl = "http://tms-test.somee.com/";
+            string baseUrl = "http://tms-test2.somee.com/";
 #else
             string baseUrl = "http://ticket-ms.somee.com/";
 #endif

@@ -27,7 +27,8 @@
                 <TextBlock Text="Опис:" />
                 <TextBox Text="{Binding Path=Description, Mode=TwoWay}" 
                          PlaceholderText="Не більше 256 символів"
-                         Margin="0,10,0,10"/>
+                         Margin="0,10,0,10"
+                         Height="100"/>
 
                 <TextBlock Text="Пріоритет:" />
                 <ComboBox ItemsSource="{Binding Path=Priorities, Mode=TwoWay}"

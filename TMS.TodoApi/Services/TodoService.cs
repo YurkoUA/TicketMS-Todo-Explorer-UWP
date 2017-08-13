@@ -67,12 +67,14 @@ namespace TMS.TodoApi.Services
 
         public async Task SetStatusAsync(int id, TaskStatus status)
         {
-            await _httpService.Client.PutAsync($"Todo/SetStatus/{id}", new StringContent($"status={(int)status}"));
+            var resp = await _httpService.Client.PutAsync($"Todo/SetStatus/{id}", new StringContent($"status={(int)status}"));
+            resp.ThrowHttpResponseExceptions();
         }
 
         public async Task SetPriorityAsync(int id, TaskPriority priority)
         {
-            await _httpService.Client.PutAsync($"Todo/SetPriority/{id}", new StringContent($"priority={(int)priority}"));
+            var resp = await _httpService.Client.PutAsync($"Todo/SetPriority/{id}", new StringContent($"priority={(int)priority}"));
+            resp.ThrowHttpResponseExceptions();
         }
     }
 }
