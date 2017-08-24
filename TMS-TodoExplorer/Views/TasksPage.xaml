@@ -10,17 +10,29 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel>
-                <Pivot SelectionChanged="{x:Bind ViewModel.ResetSelection}">
+                <Pivot SelectionChanged="{x:Bind ViewModel.ResetSelection}"
+                       SelectedIndex="{Binding Path=SelectedPivotIndex, Mode=TwoWay}">
                     <PivotItem Header="Вільні задачі">
                         <ListBox ItemsSource="{Binding Path=FreeTasks, Mode=TwoWay}"
                                  SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
-                                 Tapped="{x:Bind ViewModel.OpenDetails}">
+                                 IsRightTapEnabled="True"
+                                 Tapped="{x:Bind ViewModel.OpenDetails}"
+                                 RightTapped="ListBox_RightTapped"
+                                 AllowFocusOnInteraction="True">
+                            <ListBox.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Деталі" Command="{Binding OpenDetailsPage}" />
+                                    <MenuFlyoutItem Text="Редагувати" Command="{Binding OpenEditPage}" />
+                                    <MenuFlyoutItem Text="Видалити" Command="{Binding ConfirmDeletion}" />
+                                </MenuFlyout>
+                            </ListBox.ContextFlyout>
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="local:TodoTask">
                                     <RelativePanel>
                                         <TextBlock x:Name="taskTitle" 
                                                    Text="{x:Bind Title}"
-                                                   FontWeight="Bold" />
+                                                   FontWeight="Bold"
+                                                   TextWrapping="Wrap" />
                                         <TextBlock x:Name="taskPriority"
                                                    Text="{x:Bind PriorityString}"
                                                    RelativePanel.Below="taskTitle" />
@@ -37,13 +49,24 @@
                     <PivotItem Header="В процесі">
                         <ListBox ItemsSource="{Binding Path=InProcessTasks, Mode=TwoWay}"
                                  SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
-                                 Tapped="{x:Bind ViewModel.OpenDetails}">
+                                 IsRightTapEnabled="True"
+                                 Tapped="{x:Bind ViewModel.OpenDetails}"
+                                 RightTapped="ListBox_RightTapped"
+                                 AllowFocusOnInteraction="True">
+                            <ListBox.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Деталі" Command="{Binding OpenDetailsPage}" />
+                                    <MenuFlyoutItem Text="Редагувати" Command="{Binding OpenEditPage}" />
+                                    <MenuFlyoutItem Text="Видалити" Command="{Binding ConfirmDeletion}" />
+                                </MenuFlyout>
+                            </ListBox.ContextFlyout>
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="local:TodoTask">
                                     <RelativePanel>
                                         <TextBlock x:Name="taskTitle" 
                                                    Text="{x:Bind Title}"
-                                                   FontWeight="Bold" />
+                                                   FontWeight="Bold"
+                                                   TextWrapping="Wrap" />
                                         <TextBlock x:Name="taskPriority" 
                                                    Text="{x:Bind PriorityString}"
                                                    RelativePanel.Below="taskTitle" />
@@ -60,13 +83,24 @@
                     <PivotItem Header="Перероблюються">
                         <ListBox ItemsSource="{Binding Path=RecycledTasks, Mode=TwoWay}"
                                  SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
-                                 Tapped="{x:Bind ViewModel.OpenDetails}">
+                                 IsRightTapEnabled="True"
+                                 Tapped="{x:Bind ViewModel.OpenDetails}"
+                                 RightTapped="ListBox_RightTapped"
+                                 AllowFocusOnInteraction="True">
+                            <ListBox.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Деталі" Command="{Binding OpenDetailsPage}" />
+                                    <MenuFlyoutItem Text="Редагувати" Command="{Binding OpenEditPage}" />
+                                    <MenuFlyoutItem Text="Видалити" Command="{Binding ConfirmDeletion}" />
+                                </MenuFlyout>
+                            </ListBox.ContextFlyout>
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="local:TodoTask">
                                     <RelativePanel>
                                         <TextBlock x:Name="taskTitle" 
                                                    Text="{x:Bind Title}"
-                                                   FontWeight="Bold" />
+                                                   FontWeight="Bold"
+                                                   TextWrapping="Wrap" />
                                         <TextBlock x:Name="taskPriority" 
                                                    Text="{x:Bind PriorityString}"
                                                    RelativePanel.Below="taskTitle" />
@@ -83,13 +117,24 @@
                     <PivotItem Header="Виконані задачі">
                         <ListBox ItemsSource="{Binding Path=CompletedTasks, Mode=TwoWay}"
                                  SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
-                                 Tapped="{x:Bind ViewModel.OpenDetails}">
+                                 IsRightTapEnabled="True"
+                                 Tapped="{x:Bind ViewModel.OpenDetails}"
+                                 RightTapped="ListBox_RightTapped"
+                                 AllowFocusOnInteraction="True">
+                            <ListBox.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Деталі" Command="{Binding OpenDetailsPage}" />
+                                    <MenuFlyoutItem Text="Редагувати" Command="{Binding OpenEditPage}" />
+                                    <MenuFlyoutItem Text="Видалити" Command="{Binding ConfirmDeletion}" />
+                                </MenuFlyout>
+                            </ListBox.ContextFlyout>
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="local:TodoTask">
                                     <RelativePanel>
                                         <TextBlock x:Name="taskTitle" 
                                                    Text="{x:Bind Title}"
-                                                   FontWeight="Bold" />
+                                                   FontWeight="Bold"
+                                                   TextWrapping="Wrap" />
                                         <TextBlock x:Name="taskPriority" 
                                                    Text="{x:Bind PriorityString}"
                                                    RelativePanel.Below="taskTitle" />

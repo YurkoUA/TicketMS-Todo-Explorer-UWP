@@ -1,6 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
+using TMS.TodoApi.Exceptions;
 using TMS.TodoApi.Extensions;
 using TMS.TodoApi.Interfaces;
 using TMS.TodoApi.Models;
@@ -16,8 +20,12 @@ namespace TMS.TodoExplorer.ViewModels
         private INavigationService _navigationService;
 
         private ICommand _openCreatePage;
+        private ICommand _openDetailsPage;
+        private ICommand _openEditPage;
+        private ICommand _confirmDeletionCommand;
 
         private TodoTask _selectedTask;
+        private int _selectedPivotIndex = 0;
 
         public TasksViewModel(ITodoService todoService, INavigationService navigService)
         {
@@ -47,6 +55,16 @@ namespace TMS.TodoExplorer.ViewModels
             }
         }
 
+        public int SelectedPivotIndex
+        {
+            get => _selectedPivotIndex;
+            set
+            {
+                _selectedPivotIndex = value;
+                OnPropertyChanged("SelectedPivotIndex");
+            }
+        }
+
         public ICommand OpenCreatePage
         {
             get
@@ -55,6 +73,79 @@ namespace TMS.TodoExplorer.ViewModels
                 {
                     _navigationService.NavigateTo(typeof(CreateTaskPage));
                 }));
+            }
+        }
+
+        public ICommand OpenDetailsPage
+        {
+            get
+            {
+                return _openDetailsPage ?? (_openDetailsPage = new SimpleCommand(obj =>
+                {
+                    OpenDetails();
+                }));
+            }
+        }
+
+        public ICommand OpenEditPage
+        {
+            get
+            {
+                return _openEditPage ?? (_openEditPage = new SimpleCommand(obj =>
+                {
+                    if (SelectedTask != null)
+                    {
+                        _navigationService.NavigateTo(typeof(EditPage), SelectedTask.Id);
+                    }
+                }));
+            }
+        }
+
+        public ICommand ConfirmDeletion
+        {
+            get
+            {
+                return _confirmDeletionCommand ?? (_confirmDeletionCommand = new SimpleCommand(async obj =>
+                {
+                    var deleteDialog = new ContentDialog
+                    {
+                        Title = $"Видалення задачі \"{SelectedTask.Title}\"",
+                        Content = $"Ви дійсно бажаєте видалити задачу \"{SelectedTask.Title}\"?",
+                        CloseButtonText = "Ні",
+                        PrimaryButtonText = "Так",
+
+                        PrimaryButtonCommand = new SimpleCommand(async o =>
+                        {
+                            await DeleteAsync();
+                        })
+                    };
+                    await deleteDialog.ShowAsync();
+                }));
+            }
+        }
+
+        private async Task DeleteAsync()
+        {
+            try
+            {
+                await _todoService.DeleteAsync(SelectedTask.Id);
+                await MessageBox.ShowAsync("Задачу успішно видалено.");
+
+                GetListByPivotIndex().Remove(SelectedTask);
+                SelectedTask = null;
+            }
+            catch (NotFoundException)
+            {
+                await MessageBox.ShowAsync("Задачу не знайдено.\nМожливо, її вже хтось видалив.", "Помилка");
+                _navigationService.NavigateTo(typeof(TasksPage));
+            }
+            catch (HttpResponseException ex)
+            {
+                await MessageBox.ShowAsync($"Сталася помилка (HTTP {ex.StatusCodeNumber}).\nСпробуйте ще раз.", "Помилка");
+            }
+            catch
+            {
+                await MessageBox.ShowAsync("Сталася помилка.\nПеревірте підключення до мережі та спробуйте ще раз.", "Помилка");
             }
         }
 
@@ -96,6 +187,23 @@ namespace TMS.TodoExplorer.ViewModels
             if (dict.ContainsKey(TaskStatus.Completed))
             {
                 CompletedTasks.AddRange(dict[TaskStatus.Completed]);
+            }
+        }
+
+        private ObservableCollection<TodoTask> GetListByPivotIndex()
+        {
+            switch (SelectedPivotIndex)
+            {
+                case 0:
+                    return FreeTasks;
+                case 1:
+                    return InProcessTasks;
+                case 2:
+                    return RecycledTasks;
+                case 3:
+                    return CompletedTasks;
+                default:
+                    throw new ArgumentException();
             }
         }
     }

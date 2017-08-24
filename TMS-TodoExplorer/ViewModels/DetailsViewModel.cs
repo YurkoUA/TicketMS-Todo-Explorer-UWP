@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using TMS.TodoApi.Exceptions;
 using TMS.TodoApi.Interfaces;
 using TMS.TodoApi.Models;
 using TMS.TodoExplorer.Commands;
 using TMS.TodoExplorer.Views;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace TMS.TodoExplorer.ViewModels
 {
