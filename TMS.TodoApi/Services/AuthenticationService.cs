@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Windows.Security.Credentials;
 using Newtonsoft.Json;
 using TMS.TodoApi.Exceptions;
 using TMS.TodoApi.Interfaces;
@@ -15,14 +16,18 @@ namespace TMS.TodoApi.Services
         public bool IsAuthenticated { get; set; }
         public Token AccessToken { get; set; }
 
-        private IHttpService _httpService;
+        public PasswordCredential Credential { get; set; }
 
-        public AuthenticationService(IHttpService httpService)
+        private IHttpService _httpService;
+        private ICredentialService _credentialService;
+
+        public AuthenticationService(IHttpService httpService, ICredentialService credentialService)
         {
             _httpService = httpService;
+            _credentialService = credentialService;
         }
 
-        public async Task AuthorizeAsync(string userName, string password)
+        public async Task AuthorizeAsync(string userName, string password, bool isRemember = false)
         {
             var request = new HttpRequestMessage()
             {
@@ -50,7 +55,25 @@ namespace TMS.TodoApi.Services
                 throw new HttpResponseException(response);
             
             IsAuthenticated = true;
-            _httpService.ConfigureToken(AccessToken);
+            _httpService.ConfigureAuthorization(AccessToken);
+
+            if (isRemember)
+            {
+                Credential = _credentialService.Save(userName, password);
+            }
+        }
+
+        public void Logout()
+        {
+            IsAuthenticated = false;
+            AccessToken = null;
+            _httpService.ResetAuthorization();
+
+            if (Credential != null)
+            {
+                _credentialService.Remove(Credential);
+                Credential = null;
+            }
         }
     }
 }

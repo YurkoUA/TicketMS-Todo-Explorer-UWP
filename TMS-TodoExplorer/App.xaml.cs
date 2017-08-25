@@ -1,12 +1,16 @@
 ﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Security.Credentials;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using TMS.TodoApi.Interfaces;
 using TMS.TodoExplorer.Views;
-using TMS.TodoExplorer.Util;
-using Windows.UI.Core;
+using static TMS.TodoExplorer.Util.AutofacConfig;
+using TMS.TodoApi.Exceptions;
+using System.Threading.Tasks;
 
 namespace TMS_TodoExplorer
 {
@@ -30,7 +34,7 @@ namespace TMS_TodoExplorer
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -51,7 +55,7 @@ namespace TMS_TodoExplorer
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
 
-                AutofacConfig.ConfigureContainer();
+                ConfigureContainer();
             }
 
             if (e.PrelaunchActivated == false)
@@ -61,7 +65,24 @@ namespace TMS_TodoExplorer
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(SignInPage), e.Arguments);
+
+                    var credential = GetCredential();
+
+                    if (credential == null)
+                    {
+                        OpenSignInPage();
+                    }
+                    else
+                    {
+                        if (await (TryAuthorizeAsync(credential)))
+                        {
+                            OpenTasksPage();
+                        }
+                        else
+                        {
+                            OpenSignInPage();
+                        }
+                    }
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
@@ -115,6 +136,45 @@ namespace TMS_TodoExplorer
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private void OpenSignInPage()
+        {
+            Resolve<INavigationService>().NavigateTo(typeof(SignInPage));
+        }
+
+        private void OpenTasksPage()
+        {
+            Resolve<INavigationService>().NavigateTo(typeof(TasksPage));
+        }
+
+        private PasswordCredential GetCredential()
+        {
+            return Resolve<ICredentialService>().FindFirst();
+        }
+
+        private async Task<bool> TryAuthorizeAsync(PasswordCredential credential)
+        {
+            var authService = Resolve<IAuthenticationService>();
+            var credentialService = Resolve<ICredentialService>();
+
+            try
+            {
+                credential.RetrievePassword();
+                await authService.AuthorizeAsync(credential.UserName, credential.Password);
+                authService.Credential = credential;
+
+                return true;
+            }
+            catch (BadRequestException)
+            {
+                credentialService.Remove(credential);
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ namespace TMS.TodoApi.Interfaces
         HttpClient Client { get; set; }
         string BaseAddress { get; set; }
 
-        void ConfigureToken(Token accessToken);
+        void ConfigureAuthorization(Token accessToken);
+        void ResetAuthorization();
     }
 }

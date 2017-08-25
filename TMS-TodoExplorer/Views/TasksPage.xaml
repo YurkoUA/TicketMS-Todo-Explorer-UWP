@@ -162,6 +162,8 @@
         <CommandBar>
             <AppBarButton Label="Створити" Icon="Add"
                           Command="{Binding OpenCreatePage}"/>
+            <AppBarButton Label="Вийти" Icon="ClosePane"
+                          Command="{Binding ConfirmLogoutCommand}"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

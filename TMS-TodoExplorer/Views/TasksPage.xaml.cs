@@ -16,7 +16,8 @@ namespace TMS.TodoExplorer.Views
         {
             InitializeComponent();
             DataContext = new TasksViewModel(Resolve<ITodoService>(),
-                                             Resolve<INavigationService>());
+                                             Resolve<INavigationService>(),
+                                             Resolve<IAuthenticationService>());
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

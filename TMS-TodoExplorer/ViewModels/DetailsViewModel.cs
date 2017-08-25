@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
@@ -63,7 +60,7 @@ namespace TMS.TodoExplorer.ViewModels
                     Content = $"Ви дійсно бажаєте видалити задачу \"{SelectedTask.Title}\"?",
                     CloseButtonText = "Ні",
                     PrimaryButtonText = "Так",
-
+                    
                     PrimaryButtonCommand = new SimpleCommand(async o =>
                     {
                         await DeleteAsync();

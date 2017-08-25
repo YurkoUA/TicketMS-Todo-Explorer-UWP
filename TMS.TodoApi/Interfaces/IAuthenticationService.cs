@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Windows.Security.Credentials;
 using TMS.TodoApi.Models;
 
 namespace TMS.TodoApi.Interfaces
@@ -8,6 +9,9 @@ namespace TMS.TodoApi.Interfaces
         bool IsAuthenticated { get; set; }
         Token AccessToken { get; set; }
 
-        Task AuthorizeAsync(string userName, string password);
+        PasswordCredential Credential { get; set; }
+
+        Task AuthorizeAsync(string userName, string password, bool isRemember = false);
+        void Logout();
     }
 }

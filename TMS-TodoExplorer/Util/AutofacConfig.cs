@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using Windows.Security.Credentials;
+using Autofac;
 using TMS.TodoApi.Interfaces;
 using TMS.TodoApi.Services;
 
@@ -18,6 +19,8 @@ namespace TMS.TodoExplorer.Util
 
             var builder = new ContainerBuilder();
 
+            #region Bindings
+
             builder.RegisterType<HttpService>()
                 .As<IHttpService>()
                 .WithParameter("baseUrl", baseUrl)
@@ -34,6 +37,14 @@ namespace TMS.TodoExplorer.Util
             builder.RegisterType<TodoService>()
                 .As<ITodoService>()
                 .SingleInstance();
+
+            builder.RegisterType<CredentialService>()
+                .As<ICredentialService>()
+                .WithParameter("resourceName", "TMS Todo Explorer App")
+                .WithParameter("vault", new PasswordVault())
+                .SingleInstance();
+
+            #endregion
 
             _container = builder.Build();
         }

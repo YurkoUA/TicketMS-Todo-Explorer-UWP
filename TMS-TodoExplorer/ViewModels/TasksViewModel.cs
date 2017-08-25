@@ -18,19 +18,24 @@ namespace TMS.TodoExplorer.ViewModels
     {
         private ITodoService _todoService;
         private INavigationService _navigationService;
+        private IAuthenticationService _authService;
 
         private ICommand _openCreatePage;
         private ICommand _openDetailsPage;
         private ICommand _openEditPage;
         private ICommand _confirmDeletionCommand;
 
+        private ICommand _confirmLogoutCommand;
+        private ICommand _logoutCommand;
+
         private TodoTask _selectedTask;
         private int _selectedPivotIndex = 0;
 
-        public TasksViewModel(ITodoService todoService, INavigationService navigService)
+        public TasksViewModel(ITodoService todoService, INavigationService navigService, IAuthenticationService authService)
         {
             _todoService = todoService;
             _navigationService = navigService;
+            _authService = authService;
 
             FreeTasks = new ObservableCollection<TodoTask>();
             InProcessTasks = new ObservableCollection<TodoTask>();
@@ -120,6 +125,37 @@ namespace TMS.TodoExplorer.ViewModels
                         })
                     };
                     await deleteDialog.ShowAsync();
+                }));
+            }
+        }
+
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return _logoutCommand ?? (_logoutCommand = new SimpleCommand(obj =>
+                {
+                    _authService.Logout();
+                    _navigationService.NavigateTo(typeof(SignInPage));
+                }));
+            }
+        }
+
+        public ICommand ConfirmLogoutCommand
+        {
+            get
+            {
+                return _confirmLogoutCommand ?? (_confirmLogoutCommand = new SimpleCommand(async obj =>
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Вихід з аккаунту",
+                        Content = "Ви дійсно бажаєте вийти зі свого аккаунту?",
+                        CloseButtonText = "Ні",
+                        PrimaryButtonText = "Так",
+                        PrimaryButtonCommand = LogoutCommand
+                    };
+                    await dialog.ShowAsync();
                 }));
             }
         }

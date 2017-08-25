@@ -21,9 +21,14 @@ namespace TMS.TodoApi.Services
             };
         }
 
-        public void ConfigureToken(Token accessToken)
+        public void ConfigureAuthorization(Token accessToken)
         {
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(accessToken.TokenType, accessToken.ToString());
+        }
+
+        public void ResetAuthorization()
+        {
+            Client.DefaultRequestHeaders.Authorization = null;
         }
     }
 }

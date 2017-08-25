@@ -64,7 +64,7 @@ namespace TMS.TodoExplorer.ViewModels
         {
             try
             {
-                await _authService.AuthorizeAsync(UserName, Password);
+                await _authService.AuthorizeAsync(UserName, Password, IsRemember != null ? IsRemember.Value : false);
                 _navigationService.NavigateTo(typeof(TasksPage));
             }
             catch (BadRequestException)
